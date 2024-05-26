@@ -24,13 +24,14 @@ data "aws_region" "current" {
 }
 
 resource "aws_cloudtrail" "main_trail" {
-    count = var.deploy_resources == true ? 1 : 0
-    name = local.cloudtrail_name
-    s3_bucket_name = aws_s3_bucket.main_trail_s3[count.index].id
-    include_global_service_events = true
-    enable_log_file_validation = true
-    enable_logging = true
-    is_multi_region_trail = true
+  depends_on = [ aws_s3_bucket_policy.main_trail_s3_policy ]
+  count = var.deploy_resources == true ? 1 : 0
+  name = local.cloudtrail_name
+  s3_bucket_name = aws_s3_bucket.main_trail_s3[count.index].id
+  include_global_service_events = true
+  enable_log_file_validation = true
+  enable_logging = true
+  is_multi_region_trail = true
 }
 
 resource "aws_s3_bucket" "main_trail_s3" {
