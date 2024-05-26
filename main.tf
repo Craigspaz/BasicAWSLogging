@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "main_trail_policy" {
     }
 
     actions   = ["s3:PutObject"]
-    resources = ["${aws_s3_bucket.main_trail_s3[count.index].arn}/prefix/AWSLogs/${data.aws_caller_identity.current[count.index].account_id}/*"]
+    resources = ["${aws_s3_bucket.main_trail_s3[count.index].arn}/AWSLogs/${data.aws_caller_identity.current[count.index].account_id}/*"]
 
     condition {
       test     = "StringEquals"
